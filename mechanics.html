@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Mechanics Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #1E1E1E;
+            border-radius: 10px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Orbital Mechanics Calculator</h1>
+        <label for="mass">Mass of Object (kg):</label>
+        <input type="number" id="mass" value="500" required><br>
+        
+        <label for="velocity">Velocity (m/s):</label>
+        <input type="number" id="velocity" value="7800" required><br>
+        
+        <label for="altitude">Altitude (km):</label>
+        <input type="number" id="altitude" value="500" required><br>
+        
+        <button onclick="calculateOrbit()">Calculate</button>
+        
+        <div class="result" id="result"></div>
+    </div>
+    
+    <script>
+        function calculateOrbit() {
+            const G = 6.67430e-11;
+            const M = 5.972e24; 
+            const mass = parseFloat(document.getElementById("mass").value);
+            const velocity = parseFloat(document.getElementById("velocity").value);
+            const altitude = parseFloat(document.getElementById("altitude").value) * 1000;
+            const earthRadius = 6371000;
+            const r = earthRadius + altitude;
+            
+            const energy = (0.5 * mass * velocity ** 2) - ((G * M * mass) / r);
+            const period = 2 * Math.PI * Math.sqrt(r ** 3 / (G * M));
+            
+            document.getElementById("result").innerHTML = `
+                <p><strong>Orbital Energy:</strong> ${energy.toExponential(2)} J</p>
+                <p><strong>Orbital Period:</strong> ${(period / 60).toFixed(2)} min</p>
+            `;
+        }
+    </script>
+</body>
+</html>
